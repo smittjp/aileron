@@ -1,1 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aileron Wellness Prototype</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Aileron Wellness</h1>
+    <label for="airport-select">Select Airport</label>
+    <select id="airport-select">
+      <option value="">Choose an airport...</option>
+    </select>
 
+    <label for="category-select">Support Needed</label>
+    <select id="category-select">
+      <option value="">Choose a support type...</option>
+      <option value="physical">Physical</option>
+      <option value="mental">Mental</option>
+      <option value="social">Social</option>
+    </select>
+
+    <div id="results"></div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
