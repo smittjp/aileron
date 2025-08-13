@@ -401,6 +401,57 @@ const data = {
   ]}
 };
 
+
+const insideFillers={
+  physical:[
+    {name:"Hydration Station",description:"Water refill and stretching area"},
+    {name:"Fitness Stretch Zone",description:"Open space for light exercise"},
+    {name:"Rest & Relax Pod",description:"Private pod for short breaks"}
+  ],
+  mental:[
+    {name:"Quiet Seating Area",description:"Noise-free zone for mindfulness"},
+    {name:"Art Walk",description:"Calming local art display"},
+    {name:"Wellness Garden",description:"Indoor plantscape for reflection"}
+  ],
+  social:[
+    {name:"Crew Community Hub",description:"Meetup spot for pilots"},
+    {name:"Airline Lounge Annex",description:"Extra lounge seating"},
+    {name:"Observation Patio",description:"Open area for casual chats"}
+  ]
+};
+
+const outsideFillers={
+  physical:[
+    {name:"Airport Hotel Gym",description:"Day pass access to fitness center"},
+    {name:"Local Day Spa",description:"Full-service spa a short ride away"},
+    {name:"Running Trail",description:"Outdoor path close to the airport"}
+  ],
+  mental:[
+    {name:"City Park",description:"Green space ideal for reflection"},
+    {name:"Meditation Center",description:"Guided mindfulness sessions"},
+    {name:"Public Library",description:"Quiet reading rooms nearby"}
+  ],
+  social:[
+    {name:"Pilot-Friendly Café",description:"Popular hangout for crews"},
+    {name:"Local Lounge",description:"Relaxed spot to meet others"},
+    {name:"Co-Working Hub",description:"Shared workspace with coffee"}
+  ]
+};
+
+Object.values(data).forEach(info=>{
+  info.resources.forEach(r=>r.location="inside");
+  ["physical","mental","social"].forEach(cat=>{
+    const inside=info.resources.filter(r=>r.category===cat && r.location==="inside");
+    insideFillers[cat].slice(0,3-inside.length).forEach(f=>{
+      info.resources.push({...f,category:cat,location:"inside"});
+    });
+    outsideFillers[cat].forEach(f=>{
+      info.resources.push({category:cat,location:"outside",name:f.name,description:`${f.description} near ${info.name}.`});
+    });
+  });
+});
+
+
 const airportSelect=document.getElementById("airport-select");
 const categorySelect=document.getElementById("category-select");
 const results=document.getElementById("results");
@@ -422,6 +473,36 @@ function render(){
     results.innerHTML="<p>No resources found for this selection.</p>";
     return;
   }
+
+  const groups={inside:[],outside:[]};
+  resources.forEach(r=>groups[r.location].push(r));
+  [
+    {key:"inside",title:"In the Airport"},
+    {key:"outside",title:"Nearby the Airport"}
+  ].forEach(group=>{
+    if(groups[group.key].length){
+      const heading=document.createElement("h2");
+      heading.textContent=group.title;
+      results.appendChild(heading);
+      const list=document.createElement("ul");
+      groups[group.key].forEach(r=>{
+        const item=document.createElement("li");
+        const title=document.createElement("h3");
+        title.textContent=r.name;
+        const desc=document.createElement("p");
+        desc.textContent=r.description;
+        item.appendChild(title);
+        item.appendChild(desc);
+        list.appendChild(item);
+      });
+      results.appendChild(list);
+    }
+  });
+}
+
+airportSelect.addEventListener("change",render);
+categorySelect.addEventListener("change",render);
+
   const list=document.createElement("ul");
   resources.forEach(r=>{
     const item=document.createElement("li");

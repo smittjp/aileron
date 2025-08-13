@@ -23,6 +23,14 @@ h1 {
   color: #40534C;
 }
 
+
+.description {
+  text-align: center;
+  margin: 0 0 20px;
+  color: #40534C;
+}
+
+
 select {
   width: 100%;
   padding: 10px;
@@ -43,6 +51,14 @@ select:focus {
   padding: 0;
 }
 
+
+#results h2 {
+  color: #40534C;
+  margin-top: 20px;
+  font-weight: 400;
+}
+
+
 #results li {
   background: #677D6A;
   border-radius: 4px;
@@ -61,4 +77,5 @@ select:focus {
   margin: 0;
   font-size: 14px;
   color: #ffffff;
+
 }
