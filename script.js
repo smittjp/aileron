@@ -401,6 +401,7 @@ const data = {
   ]}
 };
 
+
 const insideFillers={
   physical:[
     {name:"Hydration Station",description:"Water refill and stretching area"},
@@ -450,6 +451,7 @@ Object.values(data).forEach(info=>{
   });
 });
 
+
 const airportSelect=document.getElementById("airport-select");
 const categorySelect=document.getElementById("category-select");
 const results=document.getElementById("results");
@@ -471,6 +473,7 @@ function render(){
     results.innerHTML="<p>No resources found for this selection.</p>";
     return;
   }
+
   const groups={inside:[],outside:[]};
   resources.forEach(r=>groups[r.location].push(r));
   [
@@ -495,6 +498,23 @@ function render(){
       results.appendChild(list);
     }
   });
+}
+
+airportSelect.addEventListener("change",render);
+categorySelect.addEventListener("change",render);
+
+  const list=document.createElement("ul");
+  resources.forEach(r=>{
+    const item=document.createElement("li");
+    const title=document.createElement("h3");
+    title.textContent=r.name;
+    const desc=document.createElement("p");
+    desc.textContent=r.description;
+    item.appendChild(title);
+    item.appendChild(desc);
+    list.appendChild(item);
+  });
+  results.appendChild(list);
 }
 
 airportSelect.addEventListener("change",render);
